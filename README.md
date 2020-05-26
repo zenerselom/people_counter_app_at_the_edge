@@ -44,8 +44,8 @@ Lighting, model accuracy, and camera focal length/image size have different effe
 deployed edge model. The potential effects of each of these are as follows...
 lighting the model gives a fast inference but a lost of accuracy as observed with tiny yolov3 which gave 266 ms of inference time compare to 2686 ms for yolov3. But it fails to detect correctly throughtout the video.  The big image size will necessite more computing ressource  due to the resolution. Due to the fact that some pre-trained model resize input images, it can have lost of accuracy if the input image is too big. So we need a model with larger image input size requiering   a device with mor computing power.
 
-#MODEL DEMO
-n/to run the app with openvino
+##MODEL DEMO
+n/ to run the app with openvino
 $ cd path/to/main.py
 $ python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m frozen_yolov3.xml  -d CPU -pt 0.1 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i   - http://0.0.0.0:3004/fac.ffm
 use model frozen_ylov3.xml or frozen_ylov3_tiny.xml (light weight)
