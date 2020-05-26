@@ -1,5 +1,7 @@
 # people_counter_app_at_the_edge
 UDACITY  project of people counter app based on yolov3 and Simple Online Realtime Tracking algorithm
+* Model used : YOLOV3, model files accessible from this link:
+    * https://drive.google.com/drive/folders/1NiMXG1HFuNNJY6M62IzcKhUty88KudEd?usp=sharing
 # Project Write-Up
 * Command used for conversion :
    * python3  mo_tf.py --input_model /home/sallecom/partagewindows/inference_yolo/model/frozen_darknet_yolov3_model_1.pb
