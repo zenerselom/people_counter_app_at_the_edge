@@ -1,12 +1,13 @@
 # people_counter_app_at_the_edge
 UDACITY  project of people counter app based on yolov3 and Simple Online Realtime Tracking algorithm
 # Project Write-Up
-Command used for conversion :
-python3  mo_tf.py --input_model /home/sallecom/partagewindows/inference_yolo/model/frozen_darknet_yolov3_model_1.pb
+* Command used for conversion :
+   * python3  mo_tf.py --input_model /home/sallecom/partagewindows/inference_yolo/model/frozen_darknet_yolov3_model_1.pb
 --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/yolo_v3.json 
 --batch 1 
---output_dir  /home/base-marine/inference
-Link to yolov3 model :  https://github.com/mystic123/tensorflow-yolo-v3.git for conversion from pre-trained weights to checkpoint
+--output_dir  /home/base-marine/inference                                                                                          
+* Link to yolov3 model :  
+   * https://github.com/mystic123/tensorflow-yolo-v3.git[GitHub](https://github.com/mystic123/tensorflow-yolo-v3.git) for conversion from pre-trained weights to checkpoint
 ## Explaining Custom Layers
 The openvino toolkit supports many neural network layers implementation in different supported frameworks. However there are some layers which are not supported. To handle this issue, custom layer implementation can be helpfull.
 To implement custom layer, we need to provide different files for the model optimizer and the inference engine. At the level of model optimizer, we have to tell openvino how to convert the unsupported layer inside The intermediate representation and at the level of inference engine we have to acctualy provide the c++ implementation of the custum layer.
@@ -26,9 +27,10 @@ for inference engine:
 For this comparison, i used a yolov3 tensorflow checkpoint file. I used it with opencv and then after conversion, with openvino. I stored at each run, the system stats (CPU usage, memory, latency...) in order to compare the two run.
 I Didn't noticed a real difference between pre and post conversion. I can say openvino is more efficient in detection.
 Comparison of yolov3 implemented with openvino and opencv
-Model/toolkit          	Size before conversion|	Size after conversion|	CPU usage |	Memory usage|	Latency
-Yolov3 with openvino	          236 Mo	            236 Mo	              185%	       19%	       2686 ms
-Yolov3 with opencv	            236 Mo	              -	                  263%	       23%	       3047 ms
+Model/toolkit    | Size before conversion|	Size after conversion |	CPU usage |	Memory usage|	Latency
+-----------------|-----------------------|-------------------------|-----------|-------------|---------
+Yolov3 with openvino	   |       236 Mo	  |          236 Mo	       |    185%	 |      19%	   |  2686 ms
+Yolov3 with opencv	   |       236 Mo   |	         -	          |    263%	 |      23%	   |   3047 ms
 
 The size of the model pre- and post-conversion remain the same for yolov3 model. However, at runtime, the size of the model in the memory is 12% less in memory than the opencv implementation. The CPU load is 14% less than the opencv implementation.
 The inference time of the model pre- and post-conversion was 3047 ms before conversion and 2686 ms  after conversion, then an efficiency of 11% in the openvino implementation ...
@@ -45,10 +47,11 @@ deployed edge model. The potential effects of each of these are as follows...
 lighting the model gives a fast inference but a lost of accuracy as observed with tiny yolov3 which gave 266 ms of inference time compare to 2686 ms for yolov3. But it fails to detect correctly throughtout the video.  The big image size will necessite more computing ressource  due to the resolution. Due to the fact that some pre-trained model resize input images, it can have lost of accuracy if the input image is too big. So we need a model with larger image input size requiering   a device with mor computing power.
 
 ##MODEL DEMO
-n/ to run the app with openvino
-$ cd path/to/main.py
-$ python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m frozen_yolov3.xml  -d CPU -pt 0.1 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i   - http://0.0.0.0:3004/fac.ffm
-use model frozen_ylov3.xml or frozen_ylov3_tiny.xml (light weight)
-to run the app with opencv
-$ cd path/to/main_cv.py
-$ python main_cv.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m frozen_yolov3.xml  -d CPU -pt 0.1 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i   - http://0.0.0.0:3004/fac.ffm
+* to run the app with openvino
+    * $ cd path/to/main.py
+    *    $ python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m frozen_yolov3.xml  -d CPU -pt 0.1 | ffmpeg -v warning -f rawvideo -
+      pixel_format bgr24 -video_size 768x432 -framerate 24 -i   - http://0.0.0.0:3004/fac.ffm 
+    * use model frozen_ylov3.xml or frozen_ylov3_tiny.xml (light weight)
+* to run the app with opencv
+    * $ cd path/to/main_cv.py
+    *    $ python main_cv.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m frozen_yolov3.xml  -d CPU -pt 0.1 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i   - http://0.0.0.0:3004/fac.ffm
