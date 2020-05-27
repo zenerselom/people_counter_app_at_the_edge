@@ -4,12 +4,9 @@ UDACITY  project of people counter app based on yolov3 and Simple Online Realtim
     * https://drive.google.com/drive/folders/1NiMXG1HFuNNJY6M62IzcKhUty88KudEd?usp=sharing
 # Project Write-Up
 * Command used for conversion :
-   * python3  mo_tf.py --input_model /home/sallecom/partagewindows/inference_yolo/model/frozen_darknet_yolov3_model_1.pb
---tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/yolo_v3.json 
---batch 1 
---output_dir  /home/base-marine/inference                                                                                          
+   * python3  mo_tf.py --input_model /path/to/model/frozen_yolov3.pb --tensorflow_use_custom_operations_config  /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/yolo_v3.json   --batch 1 --output_dir /home/base-marine/inference                                                                                        
 * Link to yolov3 model :  
-   * https://github.com/mystic123/tensorflow-yolo-v3.git[GitHub](https://github.com/mystic123/tensorflow-yolo-v3.git) for conversion from pre-trained weights to checkpoint
+   * https://github.com/mystic123/tensorflow-yolo-v3.git[GitHub] (https://github.com/mystic123/tensorflow-yolo-v3.git) for conversion from pre-trained weights to checkpoint
 ## Explaining Custom Layers
 The openvino toolkit supports many neural network layers implementation in different supported frameworks. However there are some layers which are not supported. To handle this issue, custom layer implementation can be helpfull.
 To implement custom layer, we need to provide different files for the model optimizer and the inference engine. At the level of model optimizer, we have to tell openvino how to convert the unsupported layer inside The intermediate representation and at the level of inference engine we have to acctualy provide the c++ implementation of the custum layer.
